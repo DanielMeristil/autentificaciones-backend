@@ -45,8 +45,8 @@ router.post("/login", async (req, res)=> {
     if(!user){
         res.redirect("/login");
     }else{
-        let jwt = jwt.sing({id: user._id}, 'secret_jwt', { expiresIn: '1h' });
-        res.cookie("jwt", jwt).redirect("/profile");
+        let token = jwt.sing({id: user._id}, 'secret_jwt', { expiresIn: '1h' });
+        res.cookie("jwt", token).redirect("/profile");
 
     }
 })

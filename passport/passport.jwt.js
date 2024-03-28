@@ -1,6 +1,6 @@
 import passport from "passport";
 import Strategy  from "passport-jwt";
-import  usersDAO from "../daos/users.dao";
+import  usersDAO from "../daos/users.dao.js";
 
 
 passport.use("jwt", new Strategy({
@@ -12,7 +12,7 @@ passport.use("jwt", new Strategy({
         return token;
     
     },
-    secretOrKey: ""
+    secretOrKey: "secret_jwt"
 },function(jwt_payload, done){
     let userId = jwt_payload.id;
     let user = usersDAO.getUserById(userId);
@@ -23,3 +23,5 @@ passport.use("jwt", new Strategy({
         return done(null, false);
     }
 }));
+
+export default passport;

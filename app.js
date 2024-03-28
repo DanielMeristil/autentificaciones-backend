@@ -1,20 +1,19 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import mongoose from "mongoose";
-import passport from "./passport/passport.jwt";
-
+import conectarDB from "./config/db.js";
+import dotenv from 'dotenv';
+// import mongoose from "mongoose";
+import passport from "./passport/passport.jwt.js";
+//import router_session from "./routes/sessions.js";
 
 const app = express();
 
 
 app.use(express.json());
 app.use(passport.initialize())
-app.use(cookieParser({
-    secret:"secret_cookie",
-    maxAge: 36000,
-    httpOnly: true,
-    secure: true
+app.use(cookieParser({secret:"secret_cookie",
+    maxAge: 36000,httpOnly: true,secure: true
 }));
 app.use(session({
     secret:"secretCode",
@@ -23,34 +22,16 @@ app.use(session({
 }));
 
     app.use(session());
-    mongoose.connect("mongodb+srv://mdshadyacro:MDO.Daniel37@cluster0.sf2yu9j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-    //mongoose.connect("mongodb://admin:root@localhost:27017/login");
+  
 
-    app.listen(8080,()=>{
-        console.log("servidor funcionando en el puerto 8080");
-    });
     
-/*    const conectarDB = async () => {
-        try {
-    const db = await 
+app.use(express.json());
+dotenv.config();
 
-mongoose.connect("mongodb+srv://mdshadyacro:MDO.Daniel37@cluster0.sf2yu9j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+conectarDB();
 
-    );
-        {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-    );
-
-    const url = `${db.connection.host}: ${db.connection.port}`;
-    console.log(`MongoDB conectado en:${url}`)
-
-    } catch(error){
-    console.log(`error: ${error.message}`);
-    process.exit(1);
-    }
-};
-
-export default conectarDB;
-*/
+app.use("/");
+const PORT = process.env.PORT || 4000
+app.listen(PORT, () => {
+    console.log(`servidor funcionando en el puerto ${PORT}`);
+});
